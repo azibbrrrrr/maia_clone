@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   ShoppingCart, 
   Building2, 
@@ -31,7 +31,7 @@ interface SidebarProps {
 const SidebarGroup: React.FC<{ label: string; children: React.ReactNode; collapsed: boolean }> = ({ label, children, collapsed }) => (
   <div className="flex flex-col py-2">
     {!collapsed && (
-      <div className="px-4 py-2 text-xs font-semibold text-muted-foreground/70 uppercase tracking-wider transition-opacity duration-200">
+      <div className="px-4 py-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider transition-opacity duration-200">
         {label}
       </div>
     )}
@@ -46,14 +46,14 @@ const SidebarItem: React.FC<{ icon: React.ElementType; label: string; active?: b
       className={`
         group flex items-center gap-3 rounded-md px-2 py-1.5 text-xs font-medium transition-all
         ${active 
-          ? 'bg-slate-100 text-slate-900' 
+          ? 'bg-orange-50 text-orange-600' 
           : disabled 
-            ? 'opacity-50 cursor-not-allowed text-muted-foreground' 
-            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
+            ? 'opacity-50 cursor-not-allowed text-gray-400' 
+            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
         ${collapsed ? 'justify-center p-2' : ''}
       `}
     >
-      <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-slate-900' : 'text-slate-500 group-hover:text-slate-700'}`} />
+      <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-600'}`} />
       {!collapsed && <span className="truncate">{label}</span>}
     </a>
   </li>
@@ -63,20 +63,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
   return (
     <aside
       className={`
-        group/sidebar fixed inset-y-0 left-0 z-20 flex h-full flex-col border-r border-border bg-white transition-all duration-300 ease-in-out
+        group/sidebar fixed inset-y-0 left-0 z-20 flex h-full flex-col border-r border-gray-200 bg-white transition-all duration-300 ease-in-out
         ${collapsed ? 'w-[3rem]' : 'w-60'}
       `}
     >
       {/* Sidebar Header */}
-      <div className="flex h-12 items-center border-b border-border px-2">
-        <button className="flex w-full items-center gap-2 rounded-md p-1 hover:bg-muted transition-colors text-left">
-          <div className="flex h-6 w-6 items-center justify-center rounded bg-slate-900 text-white">
+      <div className="flex h-12 items-center border-b border-gray-200 px-2">
+        <button className="flex w-full items-center gap-2 rounded-md p-1 hover:bg-gray-50 transition-colors text-left">
+          <div className="flex h-6 w-6 items-center justify-center rounded bg-slate-800 text-white">
             <Building2 className="h-4 w-4" />
           </div>
           {!collapsed && (
             <>
-              <span className="flex-1 truncate text-sm font-medium">MAIA Inc.</span>
-              <ChevronsUpDown className="h-4 w-4 text-muted-foreground" />
+              <span className="flex-1 truncate text-sm font-medium text-slate-800">MAIA Inc.</span>
+              <ChevronsUpDown className="h-4 w-4 text-gray-400" />
             </>
           )}
         </button>
@@ -123,18 +123,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
       </div>
 
       {/* Sidebar Footer */}
-      <div className="border-t border-border p-2 space-y-2">
+      <div className="border-t border-gray-200 p-2 space-y-2">
         <ul className="flex flex-col gap-1">
             <SidebarItem icon={Bug} label="Issues" collapsed={collapsed} />
         </ul>
         
         {!collapsed && (
-          <div className="flex items-center justify-between rounded-full bg-slate-50 border border-slate-200 p-0.5">
-             <div className="px-2 text-[10px] font-medium text-slate-500">Light Mode</div>
+          <div className="flex items-center justify-between rounded-full bg-gray-50 border border-gray-200 p-0.5">
+             <div className="px-2 text-[10px] font-medium text-gray-500">Light Mode</div>
              <div className="flex items-center gap-0.5">
-                <button className="p-1 rounded-full text-slate-400 hover:text-slate-600"><Monitor className="h-3 w-3" /></button>
-                <button className="p-1 rounded-full bg-white shadow-sm text-slate-800 border border-slate-200"><Sun className="h-3 w-3" /></button>
-                <button className="p-1 rounded-full text-slate-400 hover:text-slate-600"><Moon className="h-3 w-3" /></button>
+                <button className="p-1 rounded-full text-gray-400 hover:text-gray-600"><Monitor className="h-3 w-3" /></button>
+                <button className="p-1 rounded-full bg-white shadow-sm text-gray-800 border border-gray-200"><Sun className="h-3 w-3" /></button>
+                <button className="p-1 rounded-full text-gray-400 hover:text-gray-600"><Moon className="h-3 w-3" /></button>
              </div>
           </div>
         )}

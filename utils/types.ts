@@ -7,6 +7,8 @@ export interface ProgressData {
   fulfilled: number;
 }
 
+export type ProgressColor = 'red' | 'orange' | 'yellow' | 'green' | 'blue';
+
 export interface SalesOrder {
   id: string;
   customer: string;
@@ -16,16 +18,17 @@ export interface SalesOrder {
   creditBalance?: string;
   status: StatusType;
   progress: ProgressData;
+  progressColor?: ProgressColor; // Explicit color override to match design
   total: string;
   createdAt: string;
   updatedAt: string;
 }
 
 export const STATUS_COLORS: Record<StatusType, { bg: string; text: string; border: string }> = {
-  'To Bill': { bg: 'bg-yellow-50', text: 'text-yellow-700', border: 'border-yellow-200' },
-  'To Fulfill': { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
-  'To Pay and Fulfill': { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
-  'To Bill, Pay and Deliver': { bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-200' },
-  'To Deliver': { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
-  'Cancelled': { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
+  'To Bill': { bg: 'bg-[#FEF9C3]', text: 'text-[#854D0E]', border: 'border-transparent' }, // Yellow-100, Yellow-800
+  'To Fulfill': { bg: 'bg-[#FEF3C7]', text: 'text-[#92400E]', border: 'border-transparent' }, // Amber-100
+  'To Pay and Fulfill': { bg: 'bg-[#E0E7FF]', text: 'text-[#3730A3]', border: 'border-transparent' }, // Indigo-100, Indigo-800
+  'To Bill, Pay and Deliver': { bg: 'bg-[#FCE7F3]', text: 'text-[#9D174D]', border: 'border-transparent' }, // Pink-100, Pink-800
+  'To Deliver': { bg: 'bg-[#FFEDD5]', text: 'text-[#9A3412]', border: 'border-transparent' }, // Orange-100
+  'Cancelled': { bg: 'bg-[#FEE2E2]', text: 'text-[#991B1B]', border: 'border-transparent' }, // Red-100
 };
