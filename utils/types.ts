@@ -32,3 +32,31 @@ export const STATUS_COLORS: Record<StatusType, { bg: string; text: string; borde
   'To Deliver': { bg: 'bg-[#FFEDD5]', text: 'text-[#9A3412]', border: 'border-transparent' }, // Orange-100
   'Cancelled': { bg: 'bg-[#FEE2E2]', text: 'text-[#991B1B]', border: 'border-transparent' }, // Red-100
 };
+
+// --- Integration Hub Types ---
+
+export type IntegrationCategory = 'E-commerce' | 'Accounting' | 'Comms' | 'Logistics';
+export type ConnectionStatus = 'Active' | 'Error' | 'Inactive';
+
+export interface IntegrationConnection {
+  id: string;
+  name: string;
+  provider: string; // e.g., 'Shopee', 'AutoCount'
+  category: IntegrationCategory;
+  status: ConnectionStatus;
+  lastSync: string;
+  health: number; // 0-100
+  iconColor: string;
+}
+
+export interface SyncJob {
+  id: string;
+  connectionId: string;
+  action: 'Pull' | 'Push';
+  resource: string;
+  status: 'Queued' | 'Processing' | 'Completed' | 'Failed';
+  progress: number;
+  startedAt: Date;
+  completedAt?: Date;
+  recordsProcessed?: number;
+}

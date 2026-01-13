@@ -21,11 +21,14 @@ import {
   Monitor, 
   Sun, 
   Moon,
-  ChevronsUpDown
+  ChevronsUpDown,
+  Network
 } from 'lucide-react';
 
 interface SidebarProps {
   collapsed: boolean;
+  activePage: string;
+  onNavigate: (page: string) => void;
 }
 
 const SidebarGroup: React.FC<{ label: string; children: React.ReactNode; collapsed: boolean }> = ({ label, children, collapsed }) => (
@@ -39,12 +42,19 @@ const SidebarGroup: React.FC<{ label: string; children: React.ReactNode; collaps
   </div>
 );
 
-const SidebarItem: React.FC<{ icon: React.ElementType; label: string; active?: boolean; collapsed: boolean, disabled?: boolean }> = ({ icon: Icon, label, active, collapsed, disabled }) => (
+const SidebarItem: React.FC<{ 
+  icon: React.ElementType; 
+  label: string; 
+  active?: boolean; 
+  collapsed: boolean; 
+  disabled?: boolean;
+  onClick: () => void;
+}> = ({ icon: Icon, label, active, collapsed, disabled, onClick }) => (
   <li>
-    <a
-      href="#"
+    <button
+      onClick={disabled ? undefined : onClick}
       className={`
-        group flex items-center gap-3 rounded-md px-2 py-1.5 text-xs font-medium transition-all
+        w-full group flex items-center gap-3 rounded-md px-2 py-1.5 text-xs font-medium transition-all text-left
         ${active 
           ? 'bg-orange-50 text-orange-600' 
           : disabled 
@@ -55,11 +65,11 @@ const SidebarItem: React.FC<{ icon: React.ElementType; label: string; active?: b
     >
       <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-600'}`} />
       {!collapsed && <span className="truncate">{label}</span>}
-    </a>
+    </button>
   </li>
 );
 
-export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ collapsed, activePage, onNavigate }) => {
   return (
     <aside
       className={`
@@ -85,47 +95,48 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
       {/* Sidebar Content */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin">
         <SidebarGroup label="Overview" collapsed={collapsed}>
-          <SidebarItem icon={LayoutDashboard} label="Dashboard" collapsed={collapsed} />
-          <SidebarItem icon={ListTodo} label="My Tasks" collapsed={collapsed} disabled />
-          <SidebarItem icon={Clock} label="Daily Digest" collapsed={collapsed} />
+          <SidebarItem icon={LayoutDashboard} label="Dashboard" active={activePage === 'Dashboard'} onClick={() => onNavigate('Dashboard')} collapsed={collapsed} />
+          <SidebarItem icon={ListTodo} label="My Tasks" active={activePage === 'My Tasks'} onClick={() => onNavigate('My Tasks')} collapsed={collapsed} disabled />
+          <SidebarItem icon={Clock} label="Daily Digest" active={activePage === 'Daily Digest'} onClick={() => onNavigate('Daily Digest')} collapsed={collapsed} />
         </SidebarGroup>
 
         <SidebarGroup label="Selling" collapsed={collapsed}>
-          <SidebarItem icon={Users} label="Customers" collapsed={collapsed} />
-          <SidebarItem icon={Package} label="Items" collapsed={collapsed} />
-          <SidebarItem icon={FileText} label="Quotations" collapsed={collapsed} />
-          <SidebarItem icon={ShoppingCart} label="Sales Orders" active collapsed={collapsed} />
+          <SidebarItem icon={Users} label="Customers" active={activePage === 'Customers'} onClick={() => onNavigate('Customers')} collapsed={collapsed} />
+          <SidebarItem icon={Package} label="Items" active={activePage === 'Items'} onClick={() => onNavigate('Items')} collapsed={collapsed} />
+          <SidebarItem icon={FileText} label="Quotations" active={activePage === 'Quotations'} onClick={() => onNavigate('Quotations')} collapsed={collapsed} />
+          <SidebarItem icon={ShoppingCart} label="Sales Orders" active={activePage === 'Sales Orders'} onClick={() => onNavigate('Sales Orders')} collapsed={collapsed} />
         </SidebarGroup>
 
         <SidebarGroup label="Billing" collapsed={collapsed}>
-          <SidebarItem icon={FileCheck} label="Invoices" collapsed={collapsed} />
-          <SidebarItem icon={FileX} label="Credit Notes" collapsed={collapsed} />
-          <SidebarItem icon={ScrollText} label="Debit Notes" collapsed={collapsed} />
+          <SidebarItem icon={FileCheck} label="Invoices" active={activePage === 'Invoices'} onClick={() => onNavigate('Invoices')} collapsed={collapsed} />
+          <SidebarItem icon={FileX} label="Credit Notes" active={activePage === 'Credit Notes'} onClick={() => onNavigate('Credit Notes')} collapsed={collapsed} />
+          <SidebarItem icon={ScrollText} label="Debit Notes" active={activePage === 'Debit Notes'} onClick={() => onNavigate('Debit Notes')} collapsed={collapsed} />
         </SidebarGroup>
 
         <SidebarGroup label="Payments" collapsed={collapsed}>
-          <SidebarItem icon={Receipt} label="Receipts" collapsed={collapsed} />
-          <SidebarItem icon={CreditCard} label="Vouchers" collapsed={collapsed} />
+          <SidebarItem icon={Receipt} label="Receipts" active={activePage === 'Receipts'} onClick={() => onNavigate('Receipts')} collapsed={collapsed} />
+          <SidebarItem icon={CreditCard} label="Vouchers" active={activePage === 'Vouchers'} onClick={() => onNavigate('Vouchers')} collapsed={collapsed} />
         </SidebarGroup>
 
         <SidebarGroup label="Fulfillment" collapsed={collapsed}>
-          <SidebarItem icon={Truck} label="Delivery Notes" collapsed={collapsed} />
-          <SidebarItem icon={Undo2} label="Return Notes" collapsed={collapsed} />
+          <SidebarItem icon={Truck} label="Delivery Notes" active={activePage === 'Delivery Notes'} onClick={() => onNavigate('Delivery Notes')} collapsed={collapsed} />
+          <SidebarItem icon={Undo2} label="Return Notes" active={activePage === 'Return Notes'} onClick={() => onNavigate('Return Notes')} collapsed={collapsed} />
         </SidebarGroup>
 
         <SidebarGroup label="Customer Service" collapsed={collapsed}>
-          <SidebarItem icon={AlertCircle} label="Customer Issues" collapsed={collapsed} />
+          <SidebarItem icon={AlertCircle} label="Customer Issues" active={activePage === 'Customer Issues'} onClick={() => onNavigate('Customer Issues')} collapsed={collapsed} />
         </SidebarGroup>
 
-        <SidebarGroup label="Others" collapsed={collapsed}>
-          <SidebarItem icon={Upload} label="Ingestion" collapsed={collapsed} />
+        <SidebarGroup label="System" collapsed={collapsed}>
+          <SidebarItem icon={Network} label="Integration Hub" active={activePage === 'Integration Hub'} onClick={() => onNavigate('Integration Hub')} collapsed={collapsed} />
+          <SidebarItem icon={Upload} label="Ingestion" active={activePage === 'Ingestion'} onClick={() => onNavigate('Ingestion')} collapsed={collapsed} />
         </SidebarGroup>
       </div>
 
       {/* Sidebar Footer */}
       <div className="border-t border-gray-200 p-2 space-y-2">
         <ul className="flex flex-col gap-1">
-            <SidebarItem icon={Bug} label="Issues" collapsed={collapsed} />
+            <SidebarItem icon={Bug} label="Issues" active={activePage === 'Issues'} onClick={() => onNavigate('Issues')} collapsed={collapsed} />
         </ul>
         
         {!collapsed && (
