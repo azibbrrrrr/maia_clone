@@ -12,12 +12,16 @@ export const Header: React.FC<{ onToggleSidebar: () => void }> = ({ onToggleSide
           <PanelLeft className="h-4 w-4" />
           <span className="sr-only">Toggle Sidebar</span>
         </button>
-        <div className="h-4 w-px bg-border mx-1" />
-        <nav aria-label="breadcrumb" className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <a href="#" className="hover:text-foreground transition-colors">Sales</a>
-          <ChevronRight className="h-3.5 w-3.5" />
-          <a href="#" className="font-medium text-foreground transition-colors">Sales Orders</a>
-        </nav>
+        
+        {/* Hide breadcrumbs on small mobile */}
+        <div className="hidden sm:flex items-center gap-2">
+          <div className="h-4 w-px bg-border mx-1" />
+          <nav aria-label="breadcrumb" className="flex items-center gap-1.5 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-foreground transition-colors">Sales</a>
+            <ChevronRight className="h-3.5 w-3.5" />
+            <a href="#" className="font-medium text-foreground transition-colors">Sales Orders</a>
+          </nav>
+        </div>
       </div>
 
       <div className="ml-auto flex items-center gap-2">
@@ -34,8 +38,9 @@ export const Header: React.FC<{ onToggleSidebar: () => void }> = ({ onToggleSide
                 src="https://picsum.photos/32/32" 
             />
           </div>
-          <span className="hidden md:inline-block font-medium text-sm">Administrator</span>
-          <ChevronDown className="h-3.5 w-3.5 text-muted-foreground hidden md:block" />
+          {/* Hide name on small mobile */}
+          <span className="hidden sm:inline-block font-medium text-sm">Administrator</span>
+          <ChevronDown className="h-3.5 w-3.5 text-muted-foreground hidden sm:block" />
         </button>
       </div>
     </header>

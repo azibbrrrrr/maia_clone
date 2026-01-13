@@ -14,7 +14,8 @@ import {
   Settings2,
   Play,
   Loader2,
-  Server
+  Server,
+  X
 } from 'lucide-react';
 import { IntegrationConnection, SyncJob, IntegrationCategory } from '../utils/types';
 import { activeConnections, platformOptions } from '../utils/integrationData';
@@ -94,16 +95,16 @@ const SetupWizard: React.FC<{ onClose: () => void; onSave: () => void }> = ({ on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-0 md:p-4">
+      <div className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:rounded-xl md:max-w-2xl shadow-2xl overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-slate-50">
+        <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-slate-50 shrink-0">
           <div>
             <h2 className="text-lg font-semibold text-slate-800">Add New Connection</h2>
             <p className="text-xs text-slate-500">Step {step} of 2: {step === 1 ? 'Select Platform' : 'Configuration'}</p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
-            <Settings2 className="h-5 w-5" />
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 p-1">
+            <X className="h-5 w-5" />
           </button>
         </div>
 
@@ -112,12 +113,12 @@ const SetupWizard: React.FC<{ onClose: () => void; onSave: () => void }> = ({ on
           {step === 1 ? (
             <div className="space-y-6">
               {/* Category Tabs */}
-              <div className="flex gap-2 border-b border-gray-100 pb-1">
+              <div className="flex gap-2 border-b border-gray-100 pb-1 overflow-x-auto scrollbar-hide">
                 {(Object.keys(platformOptions) as IntegrationCategory[]).map(cat => (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 text-sm font-medium transition-colors relative ${
+                    className={`px-4 py-2 text-sm font-medium transition-colors relative whitespace-nowrap ${
                       selectedCategory === cat ? 'text-primary-600' : 'text-slate-500 hover:text-slate-700'
                     }`}
                   >
@@ -143,7 +144,7 @@ const SetupWizard: React.FC<{ onClose: () => void; onSave: () => void }> = ({ on
                       {/* Using first letter as generic icon for prototype */}
                       <span className="font-bold text-lg">{platform.name[0]}</span>
                     </div>
-                    <span className="text-sm font-medium text-slate-700">{platform.name}</span>
+                    <span className="text-sm font-medium text-slate-700 text-center">{platform.name}</span>
                   </button>
                 ))}
               </div>
@@ -212,7 +213,6 @@ const SetupWizard: React.FC<{ onClose: () => void; onSave: () => void }> = ({ on
                 </>
               )}
                
-               {/* Fallback for Logistics or others not specified in strict reqs but good for completeness */}
                {selectedCategory === 'Logistics' && (
                  <div>
                     <label className="block text-xs font-medium text-slate-700 mb-1">API Client ID</label>
@@ -225,7 +225,7 @@ const SetupWizard: React.FC<{ onClose: () => void; onSave: () => void }> = ({ on
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">
+        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3 shrink-0">
           {step === 1 ? (
             <>
               <button onClick={onClose} className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800">Cancel</button>
@@ -296,7 +296,7 @@ const SyncConsole: React.FC<{
           
           const newProgress = job.progress + 20;
           if (newProgress >= 100) {
-            // Completion logic is handled in the effect or next tick, but let's do it here for simplicity
+            // Completion logic is handled in the effect or next tick
             setTimeout(() => {
                triggerToast(`Sync Complete: ${Math.floor(Math.random() * 20) + 5} records imported.`, 'success');
             }, 500);
@@ -316,27 +316,27 @@ const SyncConsole: React.FC<{
   return (
     <div className="h-full flex flex-col bg-slate-50">
       {/* Console Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+      <div className="bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-full text-slate-500 transition-colors">
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
-            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <h2 className="text-lg md:text-xl font-bold text-slate-800 flex items-center gap-2">
               {connection.name}
               <span className="text-xs font-normal px-2 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">Active</span>
             </h2>
-            <p className="text-xs text-slate-500 flex items-center gap-1">
+            <p className="text-xs text-slate-500 flex items-center gap-1 mt-1">
               <Server className="h-3 w-3" /> {connection.provider} API v2.4 • Last synced: {connection.lastSync}
             </p>
           </div>
         </div>
-        <button className="text-sm text-primary-600 font-medium hover:underline flex items-center gap-1">
-          <Settings2 className="h-4 w-4" /> Configure
+        <button className="text-sm text-primary-600 font-medium hover:underline flex items-center gap-1 self-end md:self-auto">
+          <Settings2 className="h-4 w-4" /> <span className="hidden sm:inline">Configure</span>
         </button>
       </div>
 
-      <div className="p-6 space-y-6 flex-1 overflow-y-auto">
+      <div className="p-4 md:p-6 space-y-6 flex-1 overflow-y-auto">
         {/* Operations Card */}
         <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
           <h3 className="text-sm font-semibold text-slate-800 uppercase tracking-wider mb-4">Manual Sync Operations</h3>
@@ -396,7 +396,7 @@ const SyncConsole: React.FC<{
           </div>
           
           <div className="flex-1 overflow-x-auto">
-            <table className="w-full text-sm text-left">
+            <table className="w-full text-sm text-left min-w-[600px]">
               <thead className="text-xs text-slate-500 bg-white border-b border-gray-100">
                 <tr>
                   <th className="px-6 py-3 font-medium">Job ID</th>
@@ -495,15 +495,15 @@ export const IntegrationHub: React.FC = () => {
       <ToastContainer toasts={toasts} removeToast={removeToast} />
 
       {view === 'dashboard' && (
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          <div className="flex items-center justify-between">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-slate-800">Integration Hub</h1>
               <p className="text-sm text-slate-500 mt-1">Manage your connected platforms and sync operations.</p>
             </div>
             <button 
               onClick={() => setView('wizard')}
-              className="flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-all active:scale-95"
+              className="flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-all active:scale-95 w-full sm:w-auto"
             >
               <Plus className="h-4 w-4" />
               Add New Connection

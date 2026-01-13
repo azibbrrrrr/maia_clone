@@ -24,9 +24,9 @@ export const SalesOrderList: React.FC = () => {
         <div className="h-full overflow-y-auto p-4 space-y-4">
           
           {/* Top Grid Area (Search + Actions) */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4">
+          <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
             {/* Search */}
-            <div className="relative w-full max-w-md">
+            <div className="relative w-full md:max-w-md">
               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
                 <Search className="h-4 w-4" />
               </div>
@@ -38,12 +38,12 @@ export const SalesOrderList: React.FC = () => {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3">
-              <button className="inline-flex items-center justify-center gap-2 rounded-md bg-white border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors active:scale-95">
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <button className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 rounded-md bg-white border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors active:scale-95">
                 <Download className="h-3.5 w-3.5" />
-                Export CSV
+                <span className="md:inline">Export</span>
               </button>
-              <button className="inline-flex items-center justify-center gap-2 rounded-md bg-primary-500 border border-primary-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-primary-600 transition-colors active:scale-95">
+              <button className="flex-1 md:flex-none inline-flex items-center justify-center gap-2 rounded-md bg-primary-500 border border-primary-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-primary-600 transition-colors active:scale-95 whitespace-nowrap">
                 <Plus className="h-3.5 w-3.5" />
                 Create Sales Order
               </button>
@@ -52,7 +52,7 @@ export const SalesOrderList: React.FC = () => {
 
           {/* Tabs */}
           <div className="border-b border-gray-200">
-            <div className="flex items-center gap-6 overflow-x-auto pb-px">
+            <div className="flex items-center gap-6 overflow-x-auto pb-px scrollbar-hide">
               {['All Orders', 'Draft', 'In Progress', 'Completed', 'Closed', 'Cancelled'].map((tab, idx) => (
                 <button 
                   key={tab}
@@ -73,7 +73,7 @@ export const SalesOrderList: React.FC = () => {
           {/* Table Container */}
           <div className="relative flex flex-col rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden flex-1 min-h-0">
             <div className="flex-1 overflow-auto">
-              <table className="w-full text-xs text-left">
+              <table className="w-full text-xs text-left min-w-[1000px]">
                 <thead className="bg-white sticky top-0 z-10">
                   <tr className="border-b border-gray-200 text-gray-500">
                     <th className="h-10 px-3 w-10 bg-white">
@@ -119,7 +119,7 @@ export const SalesOrderList: React.FC = () => {
                         Updated at <ChevronDown className="h-3 w-3" />
                       </button>
                     </th>
-                    <th className="h-10 px-3 font-medium bg-white text-right pr-4">
+                    <th className="h-10 px-3 font-medium bg-white text-right pr-4 sticky right-0 shadow-[inset_10px_0_10px_-10px_rgba(0,0,0,0.05)]">
                       Actions
                     </th>
                   </tr>
@@ -154,8 +154,8 @@ export const SalesOrderList: React.FC = () => {
                       <td className="p-3 text-gray-500 truncate">
                         {order.updatedAt}
                       </td>
-                      <td className="p-3 text-right pr-4">
-                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <td className="p-3 text-right pr-4 sticky right-0 bg-white group-hover:bg-gray-50/80 shadow-[inset_10px_0_10px_-10px_rgba(0,0,0,0.05)]">
+                        <div className="flex items-center justify-end gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                           <button className="p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-600 transition-colors" title="View">
                             <Eye className="h-3.5 w-3.5" />
                           </button>
@@ -174,16 +174,16 @@ export const SalesOrderList: React.FC = () => {
             </div>
             
             {/* Pagination Footer */}
-            <div className="border-t border-gray-200 bg-white px-4 py-3 flex items-center justify-between text-xs text-gray-500">
+            <div className="border-t border-gray-200 bg-white px-4 py-3 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-3">
               <div className="flex items-center gap-2">
                 <span>Page 1 of 17</span>
-                <span className="text-gray-300">•</span>
-                <span>409 total results</span>
+                <span className="text-gray-300 hidden sm:inline">•</span>
+                <span className="hidden sm:inline">409 total results</span>
               </div>
               
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end">
                 <div className="flex items-center gap-2">
-                  <span>Rows per page</span>
+                  <span className="hidden sm:inline">Rows per page</span>
                   <button className="flex items-center justify-between gap-2 border border-gray-200 rounded px-2 py-1 min-w-[3rem] hover:bg-gray-50 text-gray-700">
                     25 <ChevronDown className="h-3 w-3 text-gray-400" />
                   </button>
